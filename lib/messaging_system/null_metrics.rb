@@ -2,10 +2,10 @@
 
 module MessagingSystem
   class NullMetrics
-    def increment(*); end
-    def decrement(*); end
-    def gauge(*); end
-    def histogram(*); end
-    def timing(*); end
+    def increment(*) = nil
+    def decrement(*) = nil
+    def gauge(*) = nil
+    def histogram(*) = nil
+    def timing(*) = nil
   end
 end

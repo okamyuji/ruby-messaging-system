@@ -161,7 +161,7 @@ module MessagingSystem
       else
         begin
           obj.freeze
-        rescue StandardError
+        rescue FrozenError, TypeError
           obj
         end
       end
