@@ -1,0 +1,148 @@
+plugins:
+  - rubocop-minitest
+  - rubocop-rake
+
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - "vendor/**/*"
+    - "doc/**/*"
+    - "tmp/**/*"
+
+# Layout
+Layout/LineLength:
+  Max: 120
+  AllowedPatterns:
+    - "^#"
+
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+# Metrics
+Metrics/ClassLength:
+  Max: 220
+  Exclude:
+    - "test/**/*"
+
+Metrics/MethodLength:
+  Max: 25
+  Exclude:
+    - "test/**/*"
+
+Metrics/BlockLength:
+  Exclude:
+    - "test/**/*"
+    - "Rakefile"
+
+Metrics/CyclomaticComplexity:
+  Max: 12
+  Exclude:
+    - "lib/messaging_system/topic_matcher.rb"
+
+Metrics/PerceivedComplexity:
+  Max: 12
+  Exclude:
+    - "lib/messaging_system/topic_matcher.rb"
+
+Metrics/AbcSize:
+  Max: 30
+  Exclude:
+    - "test/**/*"
+    - "lib/messaging_system/topic_matcher.rb"
+
+Metrics/ParameterLists:
+  Max: 6
+  CountKeywordArgs: false
+
+# Style
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/WordArray:
+  EnforcedStyle: brackets
+
+Style/AccessorGrouping:
+  EnforcedStyle: separated
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Naming
+Naming/MethodParameterName:
+  AllowedNames:
+    - id
+    - to
+    - e
+    - n
+
+Naming/RescuedExceptionsVariableName:
+  PreferredName: e
+
+Naming/PredicateMethod:
+  Enabled: false
+
+# Lint
+Lint/ScriptPermission:
+  Exclude:
+    - "examples/**/*"
+
+Lint/EmptyBlock:
+  Exclude:
+    - "test/**/*"
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "test/**/*"
+
+Lint/UselessAssignment:
+  Exclude:
+    - "examples/**/*"
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: false
+
+# Minitest
+Minitest/MultipleAssertions:
+  Enabled: false
+
+Minitest/AssertEmptyLiteral:
+  Enabled: false
+
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: false
+
+Minitest/AssertPredicate:
+  Enabled: false
+
+Minitest/RefutePredicate:
+  Enabled: false
