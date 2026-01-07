@@ -211,17 +211,17 @@ module MessagingSystem
     end
 
     # Boundary value tests for MAX_PAYLOAD_SIZE (64KB = 65536 bytes)
-    def test_accepts_payload_near_max_size
-      # Create a payload that is just under the limit when serialized to JSON
-      # Account for JSON overhead: {"d":"..."} = 7 chars overhead
-      data_size = 65_536 - 10 # Leave some room for JSON overhead
-      near_max_payload = { d: "x" * data_size }
+    def test_accepts_payload_at_max_size
+      # JSON overhead for { d: "x" * n } is: {"d":""} + n bytes = 8 bytes + n bytes
+      # To be exactly at limit: 8 + n = 65536, so n = 65528
+      max_data_size = 65_536 - 8
+      max_payload = { d: "x" * max_data_size }
 
-      # This should not raise if under limit
-      skip unless near_max_payload.to_json.bytesize <= 65_536
+      # Verify our calculation is correct
+      assert_equal 65_536, max_payload.to_json.bytesize
 
-      message = Message.new(topic: "test", payload: near_max_payload)
-      assert_operator message.payload[:d].length, :>, 0
+      message = Message.new(topic: "test", payload: max_payload)
+      assert_equal max_data_size, message.payload[:d].length
     end
 
     def test_rejects_payload_over_max_size
