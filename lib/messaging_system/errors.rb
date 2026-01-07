@@ -9,12 +9,12 @@ module MessagingSystem
   class InvalidPayloadError < ConfigurationError; end
   class InvalidPatternError < ConfigurationError; end
 
-  # Runtime errors
-  class RuntimeError < Error; end
-  class QueueFullError < RuntimeError; end
-  class TimeoutError < RuntimeError; end
-  class ShutdownError < RuntimeError; end
-  class NotRunningError < RuntimeError; end
+  # Operational errors (renamed from RuntimeError to avoid collision with ::RuntimeError)
+  class OperationalError < Error; end
+  class QueueFullError < OperationalError; end
+  class TimeoutError < OperationalError; end
+  class ShutdownError < OperationalError; end
+  class NotRunningError < OperationalError; end
 
   # Processing errors
   class ProcessingError < Error; end

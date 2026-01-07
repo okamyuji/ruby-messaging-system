@@ -193,5 +193,58 @@ module MessagingSystem
 
       assert_equal :high, message.priority
     end
+
+    # Boundary value tests for MAX_TOPIC_LENGTH (255)
+    def test_accepts_topic_at_max_length
+      max_length_topic = "a" * 255
+      message = Message.new(topic: max_length_topic, payload: {})
+
+      assert_equal 255, message.topic.length
+    end
+
+    def test_rejects_topic_one_over_max_length
+      over_max_topic = "a" * 256
+
+      assert_raises(InvalidTopicError) do
+        Message.new(topic: over_max_topic, payload: {})
+      end
+    end
+
+    # Boundary value tests for MAX_PAYLOAD_SIZE (64KB = 65536 bytes)
+    def test_accepts_payload_at_max_size
+      # JSON overhead for { d: "x" * n } is: {"d":""} + n bytes = 8 bytes + n bytes
+      # To be exactly at limit: 8 + n = 65536, so n = 65528
+      max_data_size = 65_536 - 8
+      max_payload = { d: "x" * max_data_size }
+
+      # Verify our calculation is correct
+      assert_equal 65_536, max_payload.to_json.bytesize
+
+      message = Message.new(topic: "test", payload: max_payload)
+      assert_equal max_data_size, message.payload[:d].length
+    end
+
+    def test_rejects_payload_over_max_size
+      # Create a payload that definitely exceeds 64KB
+      over_max_payload = { d: "x" * 70_000 }
+
+      assert_raises(PayloadSizeError) do
+        Message.new(topic: "test", payload: over_max_payload)
+      end
+    end
+
+    # Edge case: single character topic
+    def test_accepts_single_character_topic
+      message = Message.new(topic: "a", payload: {})
+
+      assert_equal "a", message.topic
+    end
+
+    # Edge case: empty hash payload
+    def test_accepts_empty_hash_payload
+      message = Message.new(topic: "test", payload: {})
+
+      assert_equal({}, message.payload)
+    end
   end
 end

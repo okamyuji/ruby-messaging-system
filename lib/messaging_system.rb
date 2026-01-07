@@ -20,5 +20,13 @@ module MessagingSystem
     def create_broker(**options)
       MessageBroker.new(**options)
     end
+
+    def create_publisher(broker:, **options)
+      Publisher.new(broker: broker, **options)
+    end
+
+    def create_subscriber(name, broker:, **options)
+      Subscriber.new(name, broker: broker, **options)
+    end
   end
 end
